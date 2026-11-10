@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dimas Aditya - Portofolio MPLB</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Yuji Syuku (Japanese Brush Feel) & Medieval/Serif Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Noto+Serif+JP:wght@400;700;900&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        parchment: '#f4ebd0',
+                        'parchment-dark': '#e6d7b2',
+                        'parchment-light': '#faf4e4',
+                        sumi: '#121110',
+                        'sumi-light': '#2a2725',
+                        vermilion: '#8b0000',
+                        'vermilion-bright': '#b22222',
+                        gold: '#c5a059',
+                    },
+                    fontFamily: {
+                        japanese: ['"Noto Serif JP"', 'serif'],
+                        cinzel: ['Cinzel', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Textured Aged Parchment Background */
+        body {
+            background-color: #f4ebd0;
+            background-image: 
+                radial-gradient(#121110 0.75px, transparent 0.75px),
+                linear-gradient(to bottom, rgba(244, 235, 208, 0.8), rgba(230, 215, 178, 0.95)),
+                url('https://images.unsplash.com/photo-1586075010923-2dd4570fb338?q=80&w=1200&auto=format&fit=crop');
+            background-blend-mode: multiply, normal, opacity;
+            color: #121110;
+        }
+
+        /* Custom Ink Splatter Canvas Overlay & Vignette */
+        .vignette {
+            box-shadow: inset 0 0 100px rgba(18, 17, 16, 0.35);
+        }
+
+        /* Ink Brush Underline / Border Effects */
+        .brush-border {
+            border-image: linear-gradient(90deg, #121110 0%, transparent 100%) 1;
+        }
+
+        .ink-badge {
+            clip-path: polygon(5% 0%, 95% 2%, 100% 50%, 93% 98%, 3% 95%, 0% 40%);
+        }
+
+        .scroll-card {
+            border: 2px solid #2a2725;
+            box-shadow: 6px 6px 0px #121110;
+            transition: all 0.3s ease;
+        }
+
+        .scroll-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 10px 10px 0px #8b0000;
+        }
+
+        /* Japanese Kanji Stamp/Hanko Effect */
+        .hanko-stamp {
+            border: 3px solid #8b0000;
+            color: #8b0000;
+            border-radius: 8px;
+            font-family: 'Noto Serif JP', serif;
+            font-weight: 900;
+            text-shadow: 0 0 1px rgba(139, 0, 0, 0.5);
+            box-shadow: inset 0 0 4px rgba(139, 0, 0, 0.3);
+            display: inline-block;
+            transform: rotate(-5deg);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e6d7b2;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #121110;
+            border-radius: 2px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8b0000;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased relative min-h-screen selection:bg-vermilion selection:text-parchment vignette">
+
+    <!-- Canvas for Floating Ink Particles Background -->
+    <canvas id="inkCanvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0 opacity-40"></canvas>
+
+    <!-- NAVIGATION BAR -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-parchment/80 border-b-2 border-sumi/20 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand / Kanji Hanko Seal -->
+            <a href="#hero" class="flex items-center gap-3 group">
+                <div class="hanko-stamp px-2 py-1 text-xl tracking-tighter group-hover:scale-105 transition-transform">
+                    武士
+                </div>
+                <div>
+                    <span class="font-cinzel text-xl font-black text-sumi tracking-wider block leading-none">DIMAS ADITYA</span>
+                    <span class="text-xs font-semibold text-vermilion tracking-widest uppercase">Portofolio MPLB</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center space-x-6 font-semibold text-sm tracking-wide text-sumi-light">
+                <a href="#hero" class="hover:text-vermilion transition-colors py-1 relative group">
+                    BERANDA
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-vermilion transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#about" class="hover:text-vermilion transition-colors py-1 relative group">
+                    TENTANG
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-vermilion transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#skills" class="hover:text-vermilion transition-colors py-1 relative group">
+                    KEAHLIAN
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-vermilion transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#projects" class="hover:text-vermilion transition-colors py-1 relative group">
+                    PROJEK
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-vermilion transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#contact" class="hover:text-vermilion transition-colors py-1 relative group">
+                    KONTAK
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-vermilion transition-all duration-300 group-hover:w-full"></span>
+                </a>
+            </nav>
+
+            <!-- CTA Button Navbar -->
+            <div class="hidden md:block">
+                <a href="#contact" class="px-5 py-2.5 bg-sumi text-parchment font-cinzel font-bold text-xs uppercase tracking-widest hover:bg-vermilion transition-all duration-300 rounded shadow-md border border-sumi">
+                    <i class="fa-solid fa-scroll mr-2"></i> Hubungi Saya
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button id="mobileMenuBtn" class="md:hidden text-sumi text-2xl focus:outline-none" aria-label="Toggle Menu">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden bg-parchment-dark border-b-2 border-sumi/30 px-6 py-4 space-y-3 font-semibold text-sumi">
+            <a href="#hero" class="block hover:text-vermilion py-1 border-b border-sumi/10">Beranda</a>
+            <a href="#about" class="block hover:text-vermilion py-1 border-b border-sumi/10">Tentang Saya</a>
+            <a href="#skills" class="block hover:text-vermilion py-1 border-b border-sumi/10">Keahlian</a>
+            <a href="#projects" class="block hover:text-vermilion py-1 border-b border-sumi/10">Projek</a>
+            <a href="#contact" class="block hover:text-vermilion py-1 border-b border-sumi/10">Kontak</a>
+        </div>
+    </header>
+
+    <main class="relative z-10">
+
+        <!-- ================= SECTION 1: HERO SECTION ================= -->
+        <section id="hero" class="min-h-[calc(100vh-5rem)] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+            <!-- Decorative Background Japanese Symbol -->
+            <div class="absolute right-10 top-1/2 -translate-y-1/2 text-[15rem] font-japanese font-black text-sumi/5 pointer-events-none select-none hidden lg:block">
+                侍
+            </div>
+
+            <div class="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Content: Introduction -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-sumi/10 border border-sumi/20 rounded-full">
+                        <span class="w-2.5 h-2.5 rounded-full bg-vermilion animate-pulse"></span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-sumi">Siswa SMK Cyber Media • MPLB</span>
+                    </div>
+
+                    <h1 class="font-cinzel text-4xl sm:text-5xl lg:text-6xl font-black text-sumi tracking-tight leading-none">
+                        DIMAS ADITYA
+                    </h1>
+
+                    <div class="w-24 h-1 bg-vermilion mx-auto lg:mx-0 relative">
+                        <div class="absolute -top-1 right-0 w-3 h-3 bg-sumi rotate-45"></div>
+                    </div>
+
+                    <p class="text-lg sm:text-xl text-sumi-light font-medium italic leading-relaxed bg-parchment-dark/50 p-6 rounded-lg border-l-4 border-vermilion shadow-inner">
+                        "Hallo, selamat datang di website portofolio saya, website ini di buat untuk saya menaruh seluruh project yang saya buat."
+                    </p>
+
+                    <div class="pt-4 flex flex-wrap justify-center lg:justify-start gap-4">
+                        <a href="#projects" class="px-8 py-3.5 bg-vermilion hover:bg-vermilion-bright text-parchment font-bold text-sm tracking-widest uppercase rounded shadow-lg transition-all duration-300 flex items-center gap-2 group">
+                            <span>Lihat Project Saya</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                        <a href="#contact" class="px-8 py-3.5 bg-transparent border-2 border-sumi hover:bg-sumi hover:text-parchment font-bold text-sm tracking-widest uppercase rounded transition-all duration-300">
+                            Hubungi Saya
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Content: Samurai Style Frame Avatar -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative group">
+                        <!-- Outer Decorative Frame Layer -->
+                        <div class="absolute -inset-3 bg-gradient-to-tr from-vermilion to-sumi rounded-2xl opacity-75 blur-sm group-hover:opacity-100 transition duration-500"></div>
+                        
+                        <!-- Main Frame with Parchment Styling -->
+                        <div class="relative w-64 h-80 sm:w-72 sm:h-96 bg-parchment-dark p-3 rounded-xl border-4 border-sumi shadow-2xl overflow-hidden flex flex-col justify-between">
+                            
+                            <!-- Samurai Ink Splatter Mask Container -->
+                            <div class="w-full h-full bg-sumi rounded-lg overflow-hidden relative border-2 border-sumi">
+                                <!-- Profile Photo with Fallback -->
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop" 
+                                     alt="Dimas Aditya" 
+                                     class="w-full h-full object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-100"
+                                     onerror="this.onerror=null; this.src='https://placehold.co/400x500/121110/f4ebd0?text=DIMAS+ADITYA';">
+                                
+                                <!-- Dark Gradient Overlay for Kanji Effect -->
+                                <div class="absolute inset-0 bg-gradient-to-t from-sumi via-transparent to-transparent opacity-80"></div>
+                                
+                                <div class="absolute bottom-3 left-3 right-3 text-parchment text-left">
+                                    <span class="text-xs font-japanese text-gold tracking-widest block">ディマス・アディティア</span>
+                                    <span class="font-cinzel text-sm font-bold tracking-wider">DIMAS ADITYA</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Samurai Crest Emblem Badge -->
+                        <div class="absolute -bottom-4 -right-4 bg-vermilion text-parchment w-14 h-14 rounded-full border-2 border-parchment flex items-center justify-center text-xl shadow-xl">
+                            <i class="fa-solid fa-kaaba text-gold"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= SECTION 2: ABOUT SECTION ================= -->
+        <section id="about" class="py-20 px-4 sm:px-6 lg:px-8 border-t border-sumi/10 relative">
+            <div class="max-w-5xl mx-auto">
+                
+                <!-- Section Title -->
+                <div class="text-center space-y-3 mb-16">
+                    <div class="hanko-stamp px-3 py-0.5 text-sm uppercase">Tentang Saya</div>
+                    <h2 class="font-cinzel text-3xl sm:text-4xl font-black text-sumi">BIOGRAFI & LATAR BELAKANG</h2>
+                    <div class="w-16 h-1 bg-vermilion mx-auto"></div>
+                </div>
+
+                <!-- Main Scroll Style Content Card -->
+                <div class="scroll-card bg-parchment-light p-6 sm:p-10 rounded-xl relative">
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                        
+                        <!-- Left Kanji / Emblem Visual -->
+                        <div class="md:col-span-4 flex flex-col items-center justify-center p-6 bg-parchment-dark/60 rounded-lg border border-sumi/20 text-center">
+                            <div class="w-24 h-24 rounded-full bg-sumi flex items-center justify-center text-parchment mb-4 shadow-lg">
+                                <i class="fa-solid fa-school text-4xl text-gold"></i>
+                            </div>
+                            <h3 class="font-cinzel font-bold text-lg text-sumi">SMK CYBER MEDIA</h3>
+                            <p class="text-xs text-vermilion font-bold tracking-widest mt-1">JAKARTA</p>
+                            <span class="mt-4 px-3 py-1 bg-sumi/10 rounded text-xs font-bold text-sumi">Siswa Aktif</span>
+                        </div>
+
+                        <!-- Right Detail Description -->
+                        <div class="md:col-span-8 space-y-4 text-sumi-light">
+                            <h3 class="font-cinzel text-2xl font-bold text-sumi">
+                                Manajemen Perkantoran Dan Layanan Bisnis (MPLB)
+                            </h3>
+                            
+                            <p class="text-base leading-relaxed">
+                                Saya adalah seorang siswa aktif di <strong class="text-sumi font-bold">SMK CYBER MEDIA</strong> yang mengambil konsentrasi keahlian <strong class="text-vermilion font-bold">MPLB (Manajemen Perkantoran Dan Layanan Bisnis)</strong>. Saya berfokus pada penguasaan administrasi modern, efisiensi operasional kantor, serta pengelolaan tata kelola dokumen bisnis secara profesional.
+                            </p>
+
+                            <p class="text-base leading-relaxed">
+                                Melalui pendidikan di jurusan MPLB, saya dibekali keterampilan mengoperasikan perangkat lunak perkantoran modern, menyusun dokumentasi resmi, serta membangun komunikasi bisnis yang efektif baik internal maupun eksternal.
+                            </p>
+
+                            <!-- Highlight Grid -->
+                            <div class="grid grid-cols-2 gap-4 pt-4 border-t border-sumi/10 text-xs font-bold text-sumi">
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-check text-vermilion"></i>
+                                    <span>Administrasi Perkantoran</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-check text-vermilion"></i>
+                                    <span>Layanan Bisnis Digital</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-check text-vermilion"></i>
+                                    <span>Manajemen Kearsipan</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-check text-vermilion"></i>
+                                    <span>Komunikasi Profesional</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= SECTION 3: SKILLS SECTION ================= -->
+        <section id="skills" class="py-20 px-4 sm:px-6 lg:px-8 border-t border-sumi/10 bg-parchment-dark/30">
+            <div class="max-w-6xl mx-auto">
+                
+                <!-- Section Title -->
+                <div class="text-center space-y-3 mb-16">
+                    <div class="hanko-stamp px-3 py-0.5 text-sm uppercase">Keahlian</div>
+                    <h2 class="font-cinzel text-3xl sm:text-4xl font-black text-sumi">SENJATA & KEMAMPUAN UTAMA</h2>
+                    <div class="w-16 h-1 bg-vermilion mx-auto"></div>
+                    <p class="text-sm text-sumi-light italic max-w-lg mx-auto">Keterampilan teknis perkantoran serta komunikasi yang saya kuasai untuk mendukung efisiensi kerja.</p>
+                </div>
+
+                <!-- Skills Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Skill 1: Word -->
+                    <div class="scroll-card bg-parchment p-6 rounded-lg space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="w-12 h-12 bg-blue-900 text-white rounded-lg flex items-center justify-center text-2xl shadow-md">
+                                <i class="fa-solid fa-file-word"></i>
+                            </div>
+                            <span class="text-xs font-mono font-bold px-2.5 py-1 bg-sumi/10 rounded">90%</span>
+                        </div>
+                        <h3 class="font-cinzel text-xl font-bold text-sumi">Microsoft Word</h3>
+                        <p class="text-sm text-sumi-light leading-relaxed">
+                            Penyusunan surat resmi, dokumen laporan perkantoran, pembuatan format naskah bisnis, dan pencetakan dokumen tercetak rapi.
+                        </p>
+                        <div class="w-full bg-sumi/20 h-2 rounded-full overflow-hidden">
+                            <div class="bg-vermilion h-full rounded-full" style="width: 90%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Skill 2: Excel -->
+                    <div class="scroll-card bg-parchment p-6 rounded-lg space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="w-12 h-12 bg-emerald-900 text-white rounded-lg flex items-center justify-center text-2xl shadow-md">
+                                <i class="fa-solid fa-file-excel"></i>
+                            </div>
+                            <span class="text-xs font-mono font-bold px-2.5 py-1 bg-sumi/10 rounded">85%</span>
+                        </div>
+                        <h3 class="font-cinzel text-xl font-bold text-sumi">Microsoft Excel</h3>
+                        <p class="text-sm text-sumi-light leading-relaxed">
+                            Pengolahan data administrasi, pengisian rumus finansial & matematika dasar, pembuatan tabel inventaris, dan grafik rekapitulasi.
+                        </p>
+                        <div class="w-full bg-sumi/20 h-2 rounded-full overflow-hidden">
+                            <div class="bg-vermilion h-full rounded-full" style="width: 85%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Skill 3: Power Point -->
+                    <div class="scroll-card bg-parchment p-6 rounded-lg space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="w-12 h-12 bg-orange-900 text-white rounded-lg flex items-center justify-center text-2xl shadow-md">
+                                <i class="fa-solid fa-file-powerpoint"></i>
+                            </div>
+                            <span class="text-xs font-mono font-bold px-2.5 py-1 bg-sumi/10 rounded">88%</span>
+                        </div>
+                        <h3 class="font-cinzel text-xl font-bold text-sumi">Microsoft Power Point</h3>
+                        <p class="text-sm text-sumi-light leading-relaxed">
+                            Desain slide presentasi bisnis yang menarik, komunikatif, profesional, dan penyampaian visual materi perkantoran yang jelas.
+                        </p>
+                        <div class="w-full bg-sumi/20 h-2 rounded-full overflow-hidden">
+                            <div class="bg-vermilion h-full rounded-full" style="width: 88%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Skill 4: Komunikasi Indonesia -->
+                    <div class="scroll-card bg-parchment p-6 rounded-lg space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="w-12 h-12 bg-red-800 text-white rounded-lg flex items-center justify-center text-2xl shadow-md">
+                                <i class="fa-solid fa-comments"></i>
+                            </div>
+                            <span class="text-xs font-mono font-bold px-2.5 py-1 bg-sumi/10 rounded">95%</span>
+                        </div>
+                        <h3 class="font-cinzel text-xl font-bold text-sumi">Komunikasi Bahasa Indonesia</h3>
+                        <p class="text-sm text-sumi-light leading-relaxed">
+                            Kemampuan berkomunikasi secara formal maupun interpersonal, negosiasi dasar, public speaking, serta pelayanan tamu kantor.
+                        </p>
+                        <div class="w-full bg-sumi/20 h-2 rounded-full overflow-hidden">
+                            <div class="bg-vermilion h-full rounded-full" style="width: 95%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Skill 5: Komunikasi Inggris -->
+                    <div class="scroll-card bg-parchment p-6 rounded-lg space-y-4 md:col-span-2 lg:col-span-1">
+                        <div class="flex items-center justify-between">
+                            <div class="w-12 h-12 bg-indigo-900 text-white rounded-lg flex items-center justify-center text-2xl shadow-md">
+                                <i class="fa-solid fa-language"></i>
+                            </div>
+                            <span class="text-xs font-mono font-bold px-2.5 py-1 bg-sumi/10 rounded">80%</span>
+                        </div>
+                        <h3 class="font-cinzel text-xl font-bold text-sumi">Komunikasi Bahasa Inggris</h3>
+                        <p class="text-sm text-sumi-light leading-relaxed">
+                            Kemampuan dasar hingga menengah dalam percakapan bisnis berbahasa Inggris, korespondensi email, dan pelayanan klien asing.
+                        </p>
+                        <div class="w-full bg-sumi/20 h-2 rounded-full overflow-hidden">
+                            <div class="bg-vermilion h-full rounded-full" style="width: 80%;"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 4: PROJECTS SECTION ================= -->
+        <section id="projects" class="py-20 px-4 sm:px-6 lg:px-8 border-t border-sumi/10">
+            <div class="max-w-6xl mx-auto">
+                
+                <!-- Section Title -->
+                <div class="text-center space-y-3 mb-16">
+                    <div class="hanko-stamp px-3 py-0.5 text-sm uppercase">Galeri Projek</div>
+                    <h2 class="font-cinzel text-3xl sm:text-4xl font-black text-sumi">KARYA & HASIL PROJEK</h2>
+                    <div class="w-16 h-1 bg-vermilion mx-auto"></div>
+                    <p class="text-sm text-sumi-light italic max-w-lg mx-auto">Daftar projek administrasi dan tugas praktek perkantoran yang pernah saya selesaikan.</p>
+                </div>
+
+                <!-- Projects Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Project Item 1 -->
+                    <div class="scroll-card bg-parchment-light rounded-xl overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <!-- Cover Visual Image -->
+                            <div class="h-48 bg-sumi relative overflow-hidden group">
+                                <img src="https://images.unsplash.com/photo-1450133064473-71024230f91b?q=80&w=800&auto=format&fit=crop" 
+                                     alt="Dokumentasi Surat Perkantoran" 
+                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80"
+                                     onerror="this.onerror=null; this.src='https://placehold.co/600x400/121110/f4ebd0?text=Sistem+Kearsipan';">
+                                <div class="absolute inset-0 bg-sumi/40 group-hover:bg-sumi/10 transition-colors"></div>
+                                <span class="absolute top-3 left-3 bg-vermilion text-parchment text-xs font-bold px-3 py-1 rounded">MS Word</span>
+                            </div>
+
+                            <div class="p-6 space-y-3">
+                                <h3 class="font-cinzel text-xl font-bold text-sumi">Sistem Tata Kelola Surat Digital</h3>
+                                <p class="text-sm text-sumi-light leading-relaxed">
+                                    Penyusunan draf surat keluar-masuk otomatis, lembar disposisi kearsipan, serta format agenda dinas perkantoran secara rapi.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-6 pt-0">
+                            <button onclick="openModal('Sistem Tata Kelola Surat Digital', 'Projek ini mencakup pembuatan template surat resmi instansi, pengelolaan arsip masuk-keluar berstandar perkantoran, dan penataan lembar disposisi menggunakan Microsoft Word.')" class="w-full py-2 bg-sumi text-parchment font-bold text-xs uppercase tracking-wider rounded hover:bg-vermilion transition-colors">
+                                Detail Projek
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Project Item 2 -->
+                    <div class="scroll-card bg-parchment-light rounded-xl overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <!-- Cover Visual Image -->
+                            <div class="h-48 bg-sumi relative overflow-hidden group">
+                                <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=800&auto=format&fit=crop" 
+                                     alt="Rekapitulasi Keuangan & Data" 
+                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80"
+                                     onerror="this.onerror=null; this.src='https://placehold.co/600x400/121110/f4ebd0?text=Rekap+Data+Excel';">
+                                <div class="absolute inset-0 bg-sumi/40 group-hover:bg-sumi/10 transition-colors"></div>
+                                <span class="absolute top-3 left-3 bg-emerald-800 text-parchment text-xs font-bold px-3 py-1 rounded">MS Excel</span>
+                            </div>
+
+                            <div class="p-6 space-y-3">
+                                <h3 class="font-cinzel text-xl font-bold text-sumi">Rekapitulasi Kas & Inventaris</h3>
+                                <p class="text-sm text-sumi-light leading-relaxed">
+                                    Pembuatan dashboard sederhana laporan kas kecil kantor, manajemen stok barang inventaris, serta rekap data karyawan.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-6 pt-0">
+                            <button onclick="openModal('Rekapitulasi Kas & Inventaris', 'Merancang lembar kerja spreadsheet terautomasi dengan rumus IF, VLOOKUP, dan SUMIF untuk mencatat alur kas kecil kantor dan jumlah ketersediaan inventaris barang.')" class="w-full py-2 bg-sumi text-parchment font-bold text-xs uppercase tracking-wider rounded hover:bg-vermilion transition-colors">
+                                Detail Projek
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Project Item 3 -->
+                    <div class="scroll-card bg-parchment-light rounded-xl overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <!-- Cover Visual Image -->
+                            <div class="h-48 bg-sumi relative overflow-hidden group">
+                                <img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?q=80&w=800&auto=format&fit=crop" 
+                                     alt="Presentasi Bisnis" 
+                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80"
+                                     onerror="this.onerror=null; this.src='https://placehold.co/600x400/121110/f4ebd0?text=Presentasi+Bisnis';">
+                                <div class="absolute inset-0 bg-sumi/40 group-hover:bg-sumi/10 transition-colors"></div>
+                                <span class="absolute top-3 left-3 bg-orange-800 text-parchment text-xs font-bold px-3 py-1 rounded">MS PowerPoint</span>
+                            </div>
+
+                            <div class="p-6 space-y-3">
+                                <h3 class="font-cinzel text-xl font-bold text-sumi">Deck Presentasi Profil Perusahaan</h3>
+                                <p class="text-sm text-sumi-light leading-relaxed">
+                                    Perancangan desain slide interaktif untuk profil perusahaan dan proposal rapat layanan bisnis modern.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-6 pt-0">
+                            <button onclick="openModal('Deck Presentasi Profil Perusahaan', 'Membuat tayangan slide presentasi dengan visualisasi data, infografis modern, serta pengaturan alur presentasi bisnis yang menarik pendengar.')" class="w-full py-2 bg-sumi text-parchment font-bold text-xs uppercase tracking-wider rounded hover:bg-vermilion transition-colors">
+                                Detail Projek
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 5: CONTACT ME SECTION ================= -->
+        <section id="contact" class="py-20 px-4 sm:px-6 lg:px-8 border-t border-sumi/10 bg-parchment-dark/40">
+            <div class="max-w-5xl mx-auto">
+                
+                <!-- Section Title -->
+                <div class="text-center space-y-3 mb-16">
+                    <div class="hanko-stamp px-3 py-0.5 text-sm uppercase">Kontak</div>
+                    <h2 class="font-cinzel text-3xl sm:text-4xl font-black text-sumi">HUBUNGI SAYA</h2>
+                    <div class="w-16 h-1 bg-vermilion mx-auto"></div>
+                    <p class="text-sm text-sumi-light italic max-w-lg mx-auto">Silakan terhubung melalui media sosial atau kontak pribadi berikut untuk diskusi dan kerjasama.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    
+                    <!-- Instagram Card -->
+                    <a href="https://instagram.com/dimssaboutmee" target="_blank" rel="noopener noreferrer" class="scroll-card bg-parchment p-6 rounded-xl flex flex-col items-center text-center space-y-3 hover:border-vermilion group">
+                        <div class="w-14 h-14 bg-gradient-to-tr from-yellow-500 via-pink-600 to-purple-600 text-white rounded-full flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 transition-transform">
+                            <i class="fa-brands fa-instagram"></i>
+                        </div>
+                        <span class="font-cinzel font-bold text-lg text-sumi block">INSTAGRAM</span>
+                        <span class="text-sm font-semibold text-vermilion">@dimssaboutmee</span>
+                        <p class="text-xs text-sumi-light">Lihat kegiatan & aktivitas harian saya</p>
+                    </a>
+
+                    <!-- WhatsApp Card -->
+                    <a href="https://wa.me/6281514138402" target="_blank" rel="noopener noreferrer" class="scroll-card bg-parchment p-6 rounded-xl flex flex-col items-center text-center space-y-3 hover:border-vermilion group">
+                        <div class="w-14 h-14 bg-emerald-600 text-white rounded-full flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 transition-transform">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </div>
+                        <span class="font-cinzel font-bold text-lg text-sumi block">WHATSAPP</span>
+                        <span class="text-sm font-semibold text-vermilion">081514138402</span>
+                        <p class="text-xs text-sumi-light">Kirim pesan cepat via WhatsApp</p>
+                    </a>
+
+                    <!-- Email Card -->
+                    <a href="mailto:alnandita25@gmail.com" class="scroll-card bg-parchment p-6 rounded-xl flex flex-col items-center text-center space-y-3 hover:border-vermilion group">
+                        <div class="w-14 h-14 bg-vermilion text-parchment rounded-full flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 transition-transform">
+                            <i class="fa-regular fa-envelope"></i>
+                        </div>
+                        <span class="font-cinzel font-bold text-lg text-sumi block">EMAIL</span>
+                        <span class="text-sm font-semibold text-vermilion break-all">alnandita25@gmail.com</span>
+                        <p class="text-xs text-sumi-light">Kirim pesan resmi perkantoran</p>
+                    </a>
+
+                </div>
+
+                <!-- Interactive Message Form -->
+                <div class="scroll-card bg-parchment p-8 rounded-xl border-2 border-sumi">
+                    <h3 class="font-cinzel text-xl font-bold text-sumi mb-6 text-center">Kirim Pesan Langsung</h3>
+                    
+                    <form id="contactForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-sumi uppercase mb-1">Nama Anda</label>
+                                <input type="text" required placeholder="Masukkan nama..." class="w-full px-4 py-2.5 bg-parchment-light border border-sumi/30 rounded focus:outline-none focus:border-vermilion text-sumi text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-sumi uppercase mb-1">Email / WA</label>
+                                <input type="text" required placeholder="Kontak Anda..." class="w-full px-4 py-2.5 bg-parchment-light border border-sumi/30 rounded focus:outline-none focus:border-vermilion text-sumi text-sm">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-sumi uppercase mb-1">Pesan / Subjek</label>
+                            <textarea rows="4" required placeholder="Tuliskan pesan Anda..." class="w-full px-4 py-2.5 bg-parchment-light border border-sumi/30 rounded focus:outline-none focus:border-vermilion text-sumi text-sm"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-3 bg-sumi text-parchment font-cinzel font-bold text-sm tracking-widest uppercase hover:bg-vermilion transition-colors rounded">
+                            <i class="fa-solid fa-paper-plane mr-2"></i> Kirim Pesan
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= SECTION 6: FOOTER SECTION ================= -->
+    <footer class="bg-sumi text-parchment border-t-4 border-vermilion pt-16 pb-8 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-12 border-b border-parchment/10">
+                
+                <!-- Brand Column -->
+                <div class="md:col-span-5 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="hanko-stamp px-2 py-1 text-xl border-parchment text-parchment">
+                            武士
+                        </div>
+                        <span class="font-cinzel text-2xl font-black text-parchment tracking-wider">DIMAS ADITYA</span>
+                    </div>
+                    <p class="text-xs text-parchment/70 leading-relaxed max-w-sm">
+                        Siswa SMK CYBER MEDIA jurusan Manajemen Perkantoran Dan Layanan Bisnis (MPLB). Berkomitmen untuk profesionalisme dan efisiensi kerja.
+                    </p>
+                </div>
+
+                <!-- Navigation Links Column -->
+                <div class="md:col-span-4 space-y-3">
+                    <h4 class="font-cinzel text-sm font-bold text-gold uppercase tracking-widest">Navigasi Menu</h4>
+                    <ul class="grid grid-cols-2 gap-2 text-xs text-parchment/80 font-medium">
+                        <li><a href="#hero" class="hover:text-vermilion transition-colors"><i class="fa-solid fa-chevron-right text-[10px] mr-1 text-vermilion"></i> Beranda</a></li>
+                        <li><a href="#about" class="hover:text-vermilion transition-colors"><i class="fa-solid fa-chevron-right text-[10px] mr-1 text-vermilion"></i> Tentang</a></li>
+                        <li><a href="#skills" class="hover:text-vermilion transition-colors"><i class="fa-solid fa-chevron-right text-[10px] mr-1 text-vermilion"></i> Keahlian</a></li>
+                        <li><a href="#projects" class="hover:text-vermilion transition-colors"><i class="fa-solid fa-chevron-right text-[10px] mr-1 text-vermilion"></i> Projek</a></li>
+                        <li><a href="#contact" class="hover:text-vermilion transition-colors"><i class="fa-solid fa-chevron-right text-[10px] mr-1 text-vermilion"></i> Kontak</a></li>
+                    </ul>
+                </div>
+
+                <!-- Social Links Column -->
+                <div class="md:col-span-3 space-y-3">
+                    <h4 class="font-cinzel text-sm font-bold text-gold uppercase tracking-widest">Sosial Media</h4>
+                    <div class="flex space-x-3 text-lg">
+                        <a href="https://instagram.com/dimssaboutmee" target="_blank" class="w-9 h-9 rounded bg-parchment/10 flex items-center justify-center hover:bg-vermilion hover:text-parchment transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://wa.me/6281514138402" target="_blank" class="w-9 h-9 rounded bg-parchment/10 flex items-center justify-center hover:bg-vermilion hover:text-parchment transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+                        <a href="mailto:alnandita25@gmail.com" class="w-9 h-9 rounded bg-parchment/10 flex items-center justify-center hover:bg-vermilion hover:text-parchment transition-colors"><i class="fa-regular fa-envelope"></i></a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer Bottom Copyright & Credits Required Text -->
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-parchment/60 gap-4">
+                <p>&copy; 2026 Dimas Aditya. All Rights Reserved.</p>
+                <p class="font-semibold text-parchment text-center">
+                    dibuat dengan 🔥 oleh DIMAS ADITYA
+                </p>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Modal Project Dialog -->
+    <div id="projectModal" class="fixed inset-0 z-50 bg-sumi/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="scroll-card bg-parchment text-sumi max-w-lg w-full p-6 rounded-xl relative space-y-4">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-sumi hover:text-vermilion text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 id="modalTitle" class="font-cinzel text-2xl font-bold border-b border-sumi/20 pb-2">Judul Projek</h3>
+            <p id="modalDesc" class="text-sm leading-relaxed text-sumi-light">Deskripsi lengkap projek...</p>
+            <div class="pt-4 flex justify-end">
+                <button onclick="closeModal()" class="px-5 py-2 bg-sumi text-parchment text-xs font-bold uppercase rounded hover:bg-vermilion">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast Box (No alert used) -->
+    <div id="toastBox" class="fixed bottom-6 right-6 z-50 bg-sumi text-parchment px-6 py-4 rounded-lg shadow-2xl border-l-4 border-vermilion hidden transform transition-all">
+        <div class="flex items-center gap-3">
+            <i class="fa-solid fa-circle-check text-emerald-400 text-xl"></i>
+            <span id="toastMsg" class="text-sm font-semibold">Pesan Anda berhasil dikirim!</span>
+        </div>
+    </div>
+
+    <!-- ================= JAVASCRIPT ================= -->
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close Mobile Menu on Link Click
+        document.querySelectorAll('#mobileMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Modal Logic
+        function openModal(title, description) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalDesc').innerText = description;
+            document.getElementById('projectModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('projectModal').classList.add('hidden');
+        }
+
+        // Form Submit Handler
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const toast = document.getElementById('toastBox');
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+            event.target.reset();
+        }
+
+        // Canvas Ink Particle Effect Background
+        const canvas = document.getElementById('inkCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const particles = [];
+        for (let i = 0; i < 25; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 3 + 1,
+                alpha: Math.random() * 0.4 + 0.1,
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: -Math.random() * 0.4 - 0.1
+            });
+        }
+
+        function animateInk() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(18, 17, 16, ${p.alpha})`;
+                ctx.fill();
+
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.y < 0) {
+                    p.y = canvas.height;
+                    p.x = Math.random() * canvas.width;
+                }
+            });
+            requestAnimationFrame(animateInk);
+        }
+
+        window.onload = function() {
+            animateInk();
+        };
+    </script>
+</body>
+                  </html>
